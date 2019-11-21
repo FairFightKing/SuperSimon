@@ -1,6 +1,29 @@
 input[type=button]{
     width: 100px;
     height: 100px;
-    color: aqua;
-    background-color: black;
+    color: black;
+}
+
+.blue{
+    background-color: blue;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
+.pink{
+    background-color: pink;
+}
+
+.green{
+    background-color: green;
+}
+
+.playing{
+    background: white;
+}
+
+.loose{
+    background: red;
 }

@@ -9,12 +9,33 @@
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+<h1>Super Simon Game by Sosthène</h1>
 
+<input type="button" value="start the game" onclick="Start()">
 
-<input type="button" value="1">
-<input type="button" value="2">
-<input type="button" value="3">
-<input type="button" value="4">
+<div>
+    <div>
+        <h2>Round n° : </h2>
+        <p id="roundCount"></p>
+    </div>
+    <div>
+        <h2>Success streak : </h2>
+        <p id="successCount"></p>
+    </div>
+    <div>
+        <h2>Round length : </h2>
+        <p id="inputLength"></p>
+    </div>
+    <div>
+        <h2>Your turn : </h2>
+        <p id="Turn"></p>
+    </div>
+</div>
+
+<input type="button" onclick="playGame(1)"  data-note="1" value="" class="GameInput blue">
+<input type="button" onclick="playGame(2)"  data-note="2" value="" class="GameInput yellow">
+<input type="button" onclick="playGame(3)"  data-note="3" value="" class="GameInput pink">
+<input type="button" onclick="playGame(4)"  data-note="4" value="" class="GameInput green">
 
 <script src="./javascript/script.js">
 
