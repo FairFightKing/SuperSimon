@@ -112,7 +112,7 @@ class GameMaster{
                     window.setTimeout(() => {
                         input.value = "";
                         input.classList.remove('playing')
-                    },240);
+                    },200);
                     break;
                 case 2:
                     input.value = 're';
@@ -121,7 +121,7 @@ class GameMaster{
                         input.value = "";
                         input.classList.remove('playing')
 
-                    },240);
+                    },200);
                     break;
                 case 3:
                     input.value = 'mi';
@@ -130,7 +130,7 @@ class GameMaster{
                         input.value = "";
                         input.classList.remove('playing')
 
-                    },240);
+                    },200);
                     break;
                 case 4:
                     input.value = 'fa';
@@ -139,7 +139,7 @@ class GameMaster{
                         input.value = "";
                         input.classList.remove('playing')
 
-                    },240);
+                    },200);
                     break;
 
             }
@@ -150,7 +150,7 @@ class GameMaster{
             input.classList.add('loose');
             window.setTimeout(() => {
                 input.classList.remove('loose')
-            },240);
+            },200);
         }
     }
 
