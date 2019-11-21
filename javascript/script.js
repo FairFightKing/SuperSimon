@@ -1,28 +1,27 @@
 class GameMaster{
     constructor(){
-        this.inputsPerTurn = 0;
+        this.inputsPerTurn = 1;
         this.result = [];
-        this.userString = "";
+        this.userInputs = "";
         this.userEvent = 0;
         this.speedInterval = 2000;
         this.userRoundStreak = 0;
         this.userInputStreak = 0;
     }
-    roundSTART(inputsPerTurn = 4){
-        this.inputsPerTurn = inputsPerTurn;
+    roundSTART(){
         let x = 0;
+        let rand = Math.floor(1 + Math.random() * Math.floor(4));
+        this.result.push(rand);
         let rowsGenerator = window.setInterval( () => {
             this.inputsPerTurn - 1 === x++ ? window.clearInterval(rowsGenerator) : console.log('not finished yet');
-            let test = Math.floor(1 + Math.random() * Math.floor(4));
-            this.result.push(test);
-           // document.querySelector('input[value="'+test+'"]').value = "ohlala";
+            // joue les touches suivant l'array
             console.log(x);
             console.log(this.result);
         },  this.speedInterval);
     }
 
     roundEND(roundResult){
-        this.userString = "";
+        this.userInputs = "";
         this.userEvent = 0;
         if(roundResult){
             this.speedInterval -= 220;
@@ -48,4 +47,4 @@ class GameMaster{
 }
 
 const GM = new GameMaster();
-GM.roundSTART(4);
+GM.roundSTART();
