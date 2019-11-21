@@ -8,6 +8,14 @@ class GameMaster{
         this.userInputStreak = 0;
     }
 
+    resetGame = () => {
+        this.userRoundStreak = 0;
+        this.userInputStreak = 0;
+        this.inputsPerTurn = 0;
+        this.result = [];
+        this.speedInterval = 2000;
+    };
+
     // Start a round, make the input per turn grow and generate a new number to play and make interval faster
     roundSTART = () => {
         let x = 0;
@@ -28,7 +36,7 @@ class GameMaster{
             // Make the input glow to show the player wich key are being played
             let inputPLaying = this.result[x];
             this.makeInputsInteract(inputPLaying, true);
-            console.log("this is x"+x);
+            console.log("this is x" + x);
             console.log(this.result);
             console.log("Input wich will be played : " + inputPLaying);
             x++;
@@ -55,15 +63,6 @@ class GameMaster{
             this.resetGame();
             // show button replay
         }
-    };
-
-    resetGame = () => {
-        this.userRoundStreak = 0;
-        this.userInputStreak = 0;
-        this.inputsPerTurn = 0;
-        this.result = [];
-        this.speedInterval = 2000;
-        document.querySelectorAll('input[data-value]').forEach(element => element.removeEventListener('click', onclick));
     };
 
     userClick = ($eventValue) => {
@@ -103,23 +102,66 @@ class GameMaster{
 
     makeInputsInteract($input, correct){
         // When the user or GM click an input
-        if(correct){
+        let input = document.querySelector("[data-note='" + $input + "']");
+        let note = $input;
+        if(correct) {
+            switch (note) {
+                case 1:
+                    input.value = 'do';
+                    input.classList.add('playing');
+                    window.setTimeout(() => {
+                        input.value = "";
+                        input.classList.remove('playing')
+                    },240);
+                    break;
+                case 2:
+                    input.value = 're';
+                    input.classList.add('playing');
+                    window.setTimeout(() => {
+                        input.value = "";
+                        input.classList.remove('playing')
+
+                    },240);
+                    break;
+                case 3:
+                    input.value = 'mi';
+                    input.classList.add('playing');
+                    window.setTimeout(() => {
+                        input.value = "";
+                        input.classList.remove('playing')
+
+                    },240);
+                    break;
+                case 4:
+                    input.value = 'fa';
+                    input.classList.add('playing');
+                    window.setTimeout(() => {
+                        input.value = "";
+                        input.classList.remove('playing')
+
+                    },240);
+                    break;
+
+            }
             // make the $input glow white and play the note
         } else {
             // make the $input glow red and play a false note
+
+            input.classList.add('loose');
+            window.setTimeout(() => {
+                input.classList.remove('loose')
+            },240);
         }
     }
+
 }
 
-const Start = () => {
-    const GM = new GameMaster();
+const GM = new GameMaster();
+
+playGame = (value) => {
+    GM.userClick(value);
+};
+
+Start = () => {
     GM.roundSTART();
-    document.querySelectorAll('input[data-input]')
-        .forEach( (element)  => {
-            element.addEventListener('click', () => {
-                let valueOfInput = Number(element.getAttribute('data-input'));
-                GM.userClick(valueOfInput);
-                console.log(valueOfInput);
-            })
-        });
 };
