@@ -21,19 +21,20 @@ class GameMaster{
         // Make the inputs play the "song" in a specific interval
         let rowsGenerator = window.setInterval( () => {
             // stop the Interval when all the key are played
-            if(this.inputsPerTurn === x ){
+            if(this.inputsPerTurn - 1 === x ){
              window.clearInterval(rowsGenerator);
              this.letUserPLay(true);
             }
             // Make the input glow to show the player wich key are being played
             let inputPLaying = this.result[x];
             this.makeInputsInteract(inputPLaying, true);
-            console.log(x);
+            console.log("this is x"+x);
             console.log(this.result);
             console.log("Input wich will be played : " + inputPLaying);
             x++;
+            console.log(x);
         },  this.speedInterval);
-    }
+    };
     // Used whenever the user loose or has clicked as many time as needed roundResult is either true or false
     roundEND = (roundResult) => {
         this.userEvent = 0;
@@ -50,15 +51,20 @@ class GameMaster{
         }else{
             // reset the game and make the button play usable again to start a new game
             console.log('Game reseting,');
-            this.userRoundStreak = 0;
-            this.userInputStreak = 0;
-            this.inputsPerTurn = 0;
-            this.result = [];
-            this.speedInterval = 2000;
             // Vous avez perdu
-            // show button play
+            this.resetGame();
+            // show button replay
         }
-    }
+    };
+
+    resetGame = () => {
+        this.userRoundStreak = 0;
+        this.userInputStreak = 0;
+        this.inputsPerTurn = 0;
+        this.result = [];
+        this.speedInterval = 2000;
+        document.querySelectorAll('input[data-value]').forEach(element => element.removeEventListener('click', onclick));
+    };
 
     userClick = ($eventValue) => {
         /* debug
@@ -85,7 +91,7 @@ class GameMaster{
             // display a red light and a loose sound plus a scoreboard
 
         }
-    }
+    };
 
     letUserPLay = (GM_Playing) => {
         if (GM_Playing === true){
@@ -93,7 +99,7 @@ class GameMaster{
         } else {
             // Make the inputs accessible to the player when the GM finished playing
         }
-    }
+    };
 
     makeInputsInteract($input, correct){
         // When the user or GM click an input
@@ -102,9 +108,18 @@ class GameMaster{
         } else {
             // make the $input glow red and play a false note
         }
-        console.log("input dans makeinput : " + $input);
     }
 }
 
-const GM = new GameMaster();
-GM.roundSTART();
+const Start = () => {
+    const GM = new GameMaster();
+    GM.roundSTART();
+    document.querySelectorAll('input[data-input]')
+        .forEach( (element)  => {
+            element.addEventListener('click', () => {
+                let valueOfInput = Number(element.getAttribute('data-input'));
+                GM.userClick(valueOfInput);
+                console.log(valueOfInput);
+            })
+        });
+};
