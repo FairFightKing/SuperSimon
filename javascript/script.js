@@ -6,6 +6,7 @@ class GameMaster{
         this.speedInterval = 2000;
         this.userRoundStreak = 0;
         this.userInputStreak = 0;
+        this.userCanPlay = false;
     }
 
     resetGame = () => {
@@ -19,7 +20,7 @@ class GameMaster{
     // Start a round, make the input per turn grow and generate a new number to play and make interval faster
     roundSTART = () => {
         let x = 0;
-        this.letUserPLay(false);
+        console.log("not ur turn");
         // add 1 input needed to complete the turn 0
         this.inputsPerTurn++;
         // generate a random number between 1 and 4
@@ -28,19 +29,17 @@ class GameMaster{
         this.result.push(rand);
         // Make the inputs play the "song" in a specific interval
         let rowsGenerator = window.setInterval( () => {
-            // stop the Interval when all the key are played
-            if(this.inputsPerTurn - 1 === x ){
-             window.clearInterval(rowsGenerator);
-             this.letUserPLay(true);
-            }
             // Make the input glow to show the player wich key are being played
             let inputPLaying = this.result[x];
             this.makeInputsInteract(inputPLaying, true);
-            console.log("this is x" + x);
             console.log(this.result);
-            console.log("Input wich will be played : " + inputPLaying);
+            // stop the Interval when all the key are played
+            if(this.inputsPerTurn - 1 === x ){
+                window.clearInterval(rowsGenerator);
+                this.userCanPlay = true;
+                console.log("your turn");
+            }
             x++;
-            console.log(x);
         },  this.speedInterval);
     };
     // Used whenever the user loose or has clicked as many time as needed roundResult is either true or false
@@ -73,84 +72,89 @@ class GameMaster{
         console.log('Input Streak : ' + this.userInputStreak);
         console.log('Input PER TURN : ' + this.inputsPerTurn);
         */
-        if(this.result[this.userEvent] === $eventValue){
-            console.log('win');
-            this.userEvent++;
-            this.userInputStreak++;
-            this.makeInputsInteract($eventValue, true);
-            if(this.userEvent === this.inputsPerTurn) {
-                console.log('you win the round');
-                this.roundEND(true);
-                // display a green light and a win sound
-            }
+        if(this.userCanPlay === false){
+            console.log("you can't play");
         } else {
-            this.makeInputsInteract($eventValue, false);
-            console.log('you loose');
-            this.roundEND(false);
-            // display a red light and a loose sound plus a scoreboard
+            if (this.result[this.userEvent] === $eventValue) {
+                console.log('win');
+                this.userEvent++;
+                this.userInputStreak++;
+                this.makeInputsInteract($eventValue, true , 'user');
+                if (this.userEvent === this.inputsPerTurn) {
+                    console.log('you win the round');
+                    this.roundEND(true);
+                    this.userCanPlay = false;
+                    console.log("your turn is finished");
 
+                    // display a green light and a win sound
+                }
+            } else {
+                this.makeInputsInteract($eventValue, false , 'user');
+                console.log('you loose');
+                this.roundEND(false);
+                this.userCanPlay = false;
+                console.log("your turn is finished");
+                // display a red light and a loose sound plus a scoreboard
+
+            }
         }
     };
 
-    letUserPLay = (GM_Playing) => {
-        if (GM_Playing === true){
-            // Make the player unable to interact with the inputs and launch the userClick method
+    makeInputsInteract($input, correct, $whoClicked){
+        if( $whoClicked === 'user' && this.userCanPlay === false){
+
         } else {
-            // Make the inputs accessible to the player when the GM finished playing
-        }
-    };
+            // When the user or GM click an input
+            let input = document.querySelector("[data-note='" + $input + "']");
+            let note = $input;
+            if (correct) {
+                switch (note) {
+                    case 1:
+                        input.value = 'do';
+                        input.classList.add('playing');
+                        window.setTimeout(() => {
+                            input.value = "";
+                            input.classList.remove('playing')
+                        }, this.speedInterval - 50);
+                        break;
+                    case 2:
+                        input.value = 're';
+                        input.classList.add('playing');
+                        window.setTimeout(() => {
+                            input.value = "";
+                            input.classList.remove('playing')
 
-    makeInputsInteract($input, correct){
-        // When the user or GM click an input
-        let input = document.querySelector("[data-note='" + $input + "']");
-        let note = $input;
-        if(correct) {
-            switch (note) {
-                case 1:
-                    input.value = 'do';
-                    input.classList.add('playing');
-                    window.setTimeout(() => {
-                        input.value = "";
-                        input.classList.remove('playing')
-                    },200);
-                    break;
-                case 2:
-                    input.value = 're';
-                    input.classList.add('playing');
-                    window.setTimeout(() => {
-                        input.value = "";
-                        input.classList.remove('playing')
+                        }, this.speedInterval - 50);
+                        break;
+                    case 3:
+                        input.value = 'mi';
+                        input.classList.add('playing');
+                        window.setTimeout(() => {
+                            input.value = "";
+                            input.classList.remove('playing')
 
-                    },200);
-                    break;
-                case 3:
-                    input.value = 'mi';
-                    input.classList.add('playing');
-                    window.setTimeout(() => {
-                        input.value = "";
-                        input.classList.remove('playing')
+                        }, this.speedInterval - 50);
+                        break;
+                    case 4:
+                        input.value = 'fa';
+                        input.classList.add('playing');
+                        window.setTimeout(() => {
+                            input.value = "";
+                            input.classList.remove('playing')
 
-                    },200);
-                    break;
-                case 4:
-                    input.value = 'fa';
-                    input.classList.add('playing');
-                    window.setTimeout(() => {
-                        input.value = "";
-                        input.classList.remove('playing')
+                        }, this.speedInterval - 50);
+                        break;
 
-                    },200);
-                    break;
+                }
+                // make the $input glow white and play the note
+            } else {
+                // make the $input glow red and play a false note
 
+                input.classList.add('loose');
+                window.setTimeout(() => {
+                    input.classList.remove('loose')
+                }, this.speedInterval - 50);
             }
-            // make the $input glow white and play the note
-        } else {
-            // make the $input glow red and play a false note
-
-            input.classList.add('loose');
-            window.setTimeout(() => {
-                input.classList.remove('loose')
-            },200);
         }
     }
 
