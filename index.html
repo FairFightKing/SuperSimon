@@ -11,24 +11,24 @@
 <body>
 <h1>Super Simon Game by Sosthène</h1>
 
-<input type="button" value="start the game" onclick="Start()">
+<input type="button" value="start the game" id="starterBtn" onclick="Start()">
 
 <div>
-    <div>
+    <div class="info">
         <h2>Round n° : </h2>
-        <p id="roundCount"></p>
+        <p id="roundCount">0</p>
     </div>
-    <div>
+    <div class="info">
         <h2>Success streak : </h2>
-        <p id="successCount"></p>
+        <p id="successCount">0</p>
     </div>
-    <div>
+    <div class="info">
         <h2>Round length : </h2>
-        <p id="inputLength"></p>
+        <p id="inputLength">0</p>
     </div>
-    <div>
+    <div class="info turnNo" id="infoTurn">
         <h2>Your turn : </h2>
-        <p id="Turn"></p>
+        <p id="Turn">NO</p>
     </div>
 </div>
 
@@ -36,6 +36,10 @@
 <input type="button" onclick="playGame(2)"  data-note="2" value="" class="GameInput yellow">
 <input type="button" onclick="playGame(3)"  data-note="3" value="" class="GameInput pink">
 <input type="button" onclick="playGame(4)"  data-note="4" value="" class="GameInput green">
+
+<div>
+    <input type="button" value="Reset the game" onclick="Reset()">
+</div>
 
 <script src="./javascript/script.js">
 

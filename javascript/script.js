@@ -7,22 +7,40 @@ class GameMaster{
         this.userRoundStreak = 0;
         this.userInputStreak = 0;
         this.userCanPlay = false;
+        this.isPLaying = false;
+
     }
+    gameSTART = () => {
+        if(this.isPLaying === false){
+            this.roundSTART();
+            this.isPLaying = true;
+        } else{
+            document.getElementById('starterBtn').value = "You can't start a game, a game is running";
+        }
+    };
 
     resetGame = () => {
-        this.userRoundStreak = 0;
-        this.userInputStreak = 0;
-        this.inputsPerTurn = 0;
-        this.result = [];
-        this.speedInterval = 2000;
+        const GM = new GameMaster();
+        document.getElementById('successCount').innerHTML = this.userInputStreak;
+        document.getElementById('roundCount').innerHTML = this.userRoundStreak;
+        document.getElementById('starterBtn').value = "Start the game";
+        document.getElementById('infoTurn').classList.remove('turnYes');
+        document.getElementById('infoTurn').classList.add('turnNo');
+        document.getElementById('Turn').innerHTML = "NO";
+        document.getElementById('inputLength').innerHTML = "0";
     };
 
     // Start a round, make the input per turn grow and generate a new number to play and make interval faster
     roundSTART = () => {
         let x = 0;
         console.log("not ur turn");
+        document.getElementById('infoTurn').classList.remove('turnYes');
+        document.getElementById('infoTurn').classList.add('turnNo');
+        document.getElementById('Turn').innerHTML = "NO";
+        this.userCanPlay = false;
         // add 1 input needed to complete the turn 0
         this.inputsPerTurn++;
+        document.getElementById('inputLength').innerHTML = this.inputsPerTurn;
         // generate a random number between 1 and 4
         let rand = Math.floor(1 + Math.random() * Math.floor(4));
         // add the random number to the array made by GM
@@ -36,8 +54,13 @@ class GameMaster{
             // stop the Interval when all the key are played
             if(this.inputsPerTurn - 1 === x ){
                 window.clearInterval(rowsGenerator);
-                this.userCanPlay = true;
-                console.log("your turn");
+                window.setTimeout(() => {
+                    console.log("your turn");
+                    this.userCanPlay = true;
+                    document.getElementById('infoTurn').classList.remove('turnNo');
+                    document.getElementById('infoTurn').classList.add('turnYes');
+                    document.getElementById('Turn').innerHTML = "YES";
+                }, this.speedInterval);
             }
             x++;
         },  this.speedInterval);
@@ -50,11 +73,15 @@ class GameMaster{
             // reduce speed interval to make the game harder, cap at 240ms
             this.speedInterval -= this.speedInterval === 240 ? 0 : 220;
             this.userRoundStreak += 1;
+            document.getElementById('roundCount').innerHTML = this.userRoundStreak;
+            document.getElementById('infoTurn').classList.remove('turnYes');
+            document.getElementById('infoTurn').classList.add('turnNo');
+            document.getElementById('Turn').innerHTML = "NO";
             window.setTimeout( () => {
                this.roundSTART();
                console.log('go win');
-            }, 3000);
-            console.log('Next round in 3s');
+            }, 2000);
+            console.log('Next round in 2s');
         }else{
             // reset the game and make the button play usable again to start a new game
             console.log('Game reseting,');
@@ -65,13 +92,6 @@ class GameMaster{
     };
 
     userClick = ($eventValue) => {
-        /* debug
-        console.log("event value :" + $eventValue);
-        console.log("GameMaster value :" + this.result[this.userEvent]);
-        console.log("Array index value :" + this.userEvent);
-        console.log('Input Streak : ' + this.userInputStreak);
-        console.log('Input PER TURN : ' + this.inputsPerTurn);
-        */
         if(this.userCanPlay === false){
             console.log("you can't play");
         } else {
@@ -80,6 +100,7 @@ class GameMaster{
                 this.userEvent++;
                 this.userInputStreak++;
                 this.makeInputsInteract($eventValue, true , 'user');
+                document.getElementById('successCount').innerHTML = this.userInputStreak;
                 if (this.userEvent === this.inputsPerTurn) {
                     console.log('you win the round');
                     this.roundEND(true);
@@ -92,7 +113,6 @@ class GameMaster{
                 this.makeInputsInteract($eventValue, false , 'user');
                 console.log('you loose');
                 this.roundEND(false);
-                this.userCanPlay = false;
                 console.log("your turn is finished");
                 // display a red light and a loose sound plus a scoreboard
 
@@ -167,5 +187,9 @@ playGame = (value) => {
 };
 
 Start = () => {
-    GM.roundSTART();
+    GM.gameSTART();
+};
+
+Reset = () => {
+  GM.resetGame();
 };
