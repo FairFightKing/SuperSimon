@@ -1,13 +1,26 @@
-*{
-    margin-top: 50px;
+body > *{
+    margin-bottom: 50px;
 }
 
 body{
     text-align: center;
     background-color: black;
     color: white;
+    position: relative;
 }
 
+#rules{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+}
+
+#scoreboard{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
 
 input.GameInput{
     width: 100px;

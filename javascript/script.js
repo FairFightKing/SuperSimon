@@ -20,10 +20,20 @@ class GameMaster{
     };
 
     resetGame = () => {
-        const GM = new GameMaster();
+        document.getElementById('successBoard').innerHTML = this.userInputStreak;
+        document.getElementById('roundBoard').innerHTML = this.userRoundStreak;
+        document.getElementById('scoreboard').style.display= "block";
+        this.inputsPerTurn = 0;
+        this.result = [];
+        this.userEvent = 0;
+        this.speedInterval = 2000;
+        this.userRoundStreak = 0;
+        this.userInputStreak = 0;
+        this.userCanPlay = false;
+        this.isPLaying = false;
         document.getElementById('successCount').innerHTML = this.userInputStreak;
         document.getElementById('roundCount').innerHTML = this.userRoundStreak;
-        document.getElementById('starterBtn').value = "Start the game";
+        document.getElementById('starterBtn').value = "Replay the game";
         document.getElementById('infoTurn').classList.remove('turnYes');
         document.getElementById('infoTurn').classList.add('turnNo');
         document.getElementById('Turn').innerHTML = "NO";
@@ -135,7 +145,7 @@ class GameMaster{
                         window.setTimeout(() => {
                             input.value = "";
                             input.classList.remove('playing')
-                        }, this.speedInterval - 50);
+                        },  180);
                         break;
                     case 2:
                         input.value = 're';
@@ -144,7 +154,7 @@ class GameMaster{
                             input.value = "";
                             input.classList.remove('playing')
 
-                        }, this.speedInterval - 50);
+                        }, 180);
                         break;
                     case 3:
                         input.value = 'mi';
@@ -153,7 +163,7 @@ class GameMaster{
                             input.value = "";
                             input.classList.remove('playing')
 
-                        }, this.speedInterval - 50);
+                        }, 180);
                         break;
                     case 4:
                         input.value = 'fa';
@@ -162,7 +172,7 @@ class GameMaster{
                             input.value = "";
                             input.classList.remove('playing')
 
-                        }, this.speedInterval - 50);
+                        }, 180);
                         break;
 
                 }
@@ -173,14 +183,14 @@ class GameMaster{
                 input.classList.add('loose');
                 window.setTimeout(() => {
                     input.classList.remove('loose')
-                }, this.speedInterval - 50);
+                }, 180);
             }
         }
     }
 
 }
 
-const GM = new GameMaster();
+let GM = new GameMaster();
 
 playGame = (value) => {
     GM.userClick(value);
@@ -191,5 +201,5 @@ Start = () => {
 };
 
 Reset = () => {
-  GM.resetGame();
+    GM.resetGame();
 };
